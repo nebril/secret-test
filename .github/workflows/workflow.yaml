@@ -11,6 +11,15 @@ jobs:
     job:
       runs-on: ubuntu-22.04
       steps:
+        - name: Getting image tag
+          id: tag
+          run: |
+            if [ "${{ github.event.pull_request.head.sha }}" != "" ]; then
+              tag=${{ github.event.pull_request.head.sha }}
+            else
+              tag=${{ github.sha }}
+            fi
+            echo tag=${tag} >> $GITHUB_OUTPUT
         - name: Checkout default branch (trusted)
           uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
           with:
@@ -24,6 +33,6 @@ jobs:
           uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
           with:
             persist-credentials: false
-            ref: ${{ github.sha }}
+            ref: ${{ steps.tag.outputs.tag }}
         - name: use secure action
           uses: ./.github/actions/secure-action
