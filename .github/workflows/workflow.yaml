@@ -3,8 +3,26 @@ name: test
 on:
   pull_request_target: {}
 
+permissions:
+  # To be able to access the repository with `actions/checkout`
+  contents: read
+
 jobs:
     job:
       steps:
+        - name: Checkout default branch (trusted)
+          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+          with:
+            ref: ${{ github.event.repository.default_branch }}
+            persist-credentials: false
+        - name: use secure action
+          uses: ./.github/actions/secure-action
+        # Warning: since this is a privileged workflow, subsequent workflow job
+        # steps must take care not to execute untrusted code.
+        - name: Checkout pull request branch (NOT TRUSTED)
+          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+          with:
+            persist-credentials: false
+            ref: ${{ steps.tag.outputs.tag }}
         - name: use secure action
           uses: ./.github/actions/secure-action
