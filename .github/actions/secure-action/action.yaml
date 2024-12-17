@@ -4,5 +4,5 @@ runs:
   using: composite
   steps:
     - name: Secure echo
-      run: echo super unsecure, wow
+      run: echo this is the third branch checking in
       shell: bash
