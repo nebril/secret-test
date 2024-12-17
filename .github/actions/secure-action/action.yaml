@@ -4,5 +4,5 @@ runs:
   using: composite
   steps:
     - name: Secure echo
-      run: echo very secure wow
+      run: echo super unsecure, wow
       shell: bash
