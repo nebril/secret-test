@@ -1,17 +1,10 @@
 name: test
 
-# Any change in triggers needs to be reflected in the concurrency group.
 on:
-  pull_request: {}
-
-permissions: read-all
+  pull_request_target: {}
 
 jobs:
     job:
-      runs-on: ubuntu-20.04
       steps:
-        - name: use a secret
-          run: |
-            echo ${{ secrets.TEST }} > file
-        - name: Setup tmate session
-          uses: mxschmitt/action-tmate@v3
+        - name: use secure action
+          uses: ./.github/actions/secure-action

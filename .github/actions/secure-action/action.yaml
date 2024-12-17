@@ -1,0 +1,8 @@
+name: Secure action
+description: very secure action
+runs:
+  using: composite
+  steps:
+    - name: Secure echo
+      run: echo very secure wow
+      shell: bash
